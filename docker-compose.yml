@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  dev-db:
+    image: postgres
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nargo
+    networks:
+      - nargo
+    volumes:
+      - dev-db:/var/lib/postgresql/data
+
+  test-db:
+    image: postgres
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nargo
+    networks:
+      - nargo
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass redis
+    environment:
+      - REDIS_PASSWORD=redis
+    networks:
+      - nargo
+    volumes:
+      - cache:/data
+
+networks:
+  nargo:
+
+volumes:
+  cache:
+    driver: local
+  dev-db:
+    driver: local
