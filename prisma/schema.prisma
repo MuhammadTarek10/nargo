@@ -13,11 +13,102 @@ enum UserRoles {
   Admin
 }
 
-model User {
+model user {
   id         String    @id @default(uuid()) @db.Uuid
   first_name String?
   last_name  String?
   email      String    @unique
   hash       String
   role       UserRoles @default(Customer)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  orders  order[]
+  Cart    cart?
+  product product[]
+}
+
+model Category {
+  id         String   @id @default(uuid()) @db.Uuid
+  slug       String   @unique
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  products product[]
+}
+
+model product {
+  id            String   @id @default(uuid()) @db.Uuid
+  category_slug String  
+  name          String
+  description   String
+  price         Decimal  @db.Decimal(5, 2)
+  quantity      Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  created_by    String @db.Uuid
+
+  category    Category     @relation(fields: [category_slug], references: [slug], onDelete: Cascade)
+  owner       user         @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  order_items order_item[]
+  cart_items  cart_item[]
+
+  @@index([price])
+  @@index([quantity])
+  @@index([category_slug])
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model order {
+  id         String      @id @default(uuid()) @db.Uuid
+  user_id    String @db.Uuid
+  status     OrderStatus @default(PENDING)
+  total      Decimal     @db.Decimal(5, 2)
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+
+  order_items order_item[]
+  user        user         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model order_item {
+  id         String   @id @default(uuid()) @db.Uuid
+  order_id   String @db.Uuid
+  product_id String @db.Uuid
+  quantity   Int
+  price      Decimal  @db.Decimal(5, 2)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  order   order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+}
+
+model cart {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @unique @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  items cart_item[]
+  user  user        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model cart_item {
+  id         String   @id @default(uuid()) @db.Uuid
+  cart_id    String @db.Uuid
+  product_id String @db.Uuid
+  quantity   Int      @default(1)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  cart    cart    @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  product product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
