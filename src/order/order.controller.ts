@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { AdminGuard, JwtGuard } from 'src/auth/guard';
+import { Constants } from 'src/constants';
 import { OrderService } from './order.service';
 
 @UseGuards(JwtGuard)
@@ -23,9 +24,9 @@ export class OrderController {
     @Query('status') status: string,
   ) {
     switch (status?.toLowerCase()) {
-      case 'pending':
+      case Constants.pending:
         return await this.service.getPending(user_id);
-      case 'delivered':
+      case Constants.delivered:
         return await this.service.getHistory(user_id);
       default:
         return await this.service.get(user_id);

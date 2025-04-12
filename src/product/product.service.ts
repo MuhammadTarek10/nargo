@@ -66,8 +66,39 @@ export class ProductService {
     });
   }
 
-  async findAll(): Promise<Partial<product>[]> {
-    return await this.db.product.findMany();
+  async findAll(
+    category: string,
+    form_price: number,
+    to_price: number,
+    available: string,
+  ): Promise<Partial<product>[]> {
+    const where: Prisma.productWhereInput = {};
+
+    if (category) {
+      where.category_slug = category;
+    }
+
+    if (form_price) {
+      where.price = {
+        gte: form_price,
+      };
+    }
+
+    if (to_price) {
+      where.price = {
+        lte: to_price,
+      };
+    }
+
+    if (available) {
+      where.quantity = {
+        gt: 0,
+      };
+    }
+
+    return this.db.product.findMany({
+      where,
+    });
   }
 
   async findOne(id: string): Promise<Partial<product> | undefined> {

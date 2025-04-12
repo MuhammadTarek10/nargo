@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Constants } from 'src/constants';
 
 export class RegisterDto {
   @IsEmail()
@@ -18,5 +19,5 @@ export class RegisterDto {
 
   @IsOptional()
   @IsString()
-  role: string = 'Customer';
+  role: string = Constants.customer;
 }

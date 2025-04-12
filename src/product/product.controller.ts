@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
@@ -36,8 +37,18 @@ export class ProductController {
   }
 
   @Get()
-  async findAll() {
-    return await this.service.findAll();
+  async findAll(
+    @Query('category') category: string,
+    @Query('from-price') from_price: number,
+    @Query('to-price') to_price: number,
+    @Query('available') available: string,
+  ) {
+    return await this.service.findAll(
+      category,
+      from_price,
+      to_price,
+      available,
+    );
   }
 
   @Get(':id')

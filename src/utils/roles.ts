@@ -1,10 +1,11 @@
 import { user_roles } from 'generated/prisma';
+import { Constants } from 'src/constants';
 
 export function getRole(role: string): user_roles {
-  switch (role) {
-    case 'Customer':
+  switch (role.toLowerCase()) {
+    case Constants.customer:
       return user_roles.Customer;
-    case 'Admin':
+    case Constants.admin:
       return user_roles.Admin;
     default:
       return user_roles.Customer;

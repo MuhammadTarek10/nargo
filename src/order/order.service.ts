@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { order, Prisma } from 'generated/prisma';
 import { CartService } from 'src/cart/cart.service';
+import { Constants } from 'src/constants';
 import { DbService } from 'src/db/db.service';
 import { getStatus } from 'src/utils/order-status';
 
@@ -16,11 +17,11 @@ export class OrderService {
   }
 
   async getHistory(user_id: string): Promise<Partial<order[]>> {
-    return this.getOrders(user_id, 'delivered');
+    return this.getOrders(user_id, Constants.delivered);
   }
 
   async getPending(user_id: string): Promise<Partial<order[]>> {
-    return this.getOrders(user_id, 'pending');
+    return this.getOrders(user_id, Constants.pending);
   }
 
   async get(user_id: string): Promise<Partial<order[]>> {
@@ -60,7 +61,7 @@ export class OrderService {
 
   async update(
     order_id: string,
-    status: string = 'PROCESSING',
+    status: string = Constants.shipped,
   ): Promise<Partial<order>> {
     return this.db.order.update({
       where: { id: order_id },
@@ -68,6 +69,8 @@ export class OrderService {
         status: getStatus(status),
       },
     });
+
+    // TODO: send email to user
   }
 
   private async createOrder(

@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { user } from 'generated/prisma';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Constants } from 'src/constants';
 import { DbService } from 'src/db/db.service';
 
 @Injectable()
@@ -41,7 +42,7 @@ export class AdminStrategy extends PassportStrategy(Strategy, 'admin') {
 
     if (!user) throw new NotFoundException('There is no User with this Id');
 
-    if (user.role !== 'Admin')
+    if (user.role.toLowerCase() !== Constants.admin)
       throw new UnauthorizedException('Must be admin to do this operation');
 
     return user;
