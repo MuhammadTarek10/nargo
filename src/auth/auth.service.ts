@@ -7,8 +7,8 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
-import { UserRoles } from 'generated/prisma';
 import { DbService } from 'src/db/db.service';
+import { getRole } from 'src/utils/roles';
 import { LoginDto, RegisterDto } from './dto';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class AuthService {
           first_name: dto.first_name,
           last_name: dto.last_name,
           hash: hash,
-          role: this.getRole(dto.role),
+          role: getRole(dto.role),
         },
       });
 
@@ -81,16 +81,5 @@ export class AuthService {
     });
 
     return { access_token: token };
-  }
-
-  private getRole(role: string): UserRoles {
-    switch (role) {
-      case 'Customer':
-        return UserRoles.Customer;
-      case 'Admin':
-        return UserRoles.Admin;
-      default:
-        return UserRoles.Customer;
-    }
   }
 }

@@ -1,15 +1,19 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class EditUserDto {
+export class UpdateProductDto {
   @IsOptional()
   @IsString()
-  first_name?: string;
+  name: string;
 
   @IsOptional()
   @IsString()
-  last_name?: string;
+  description: string;
 
   @IsOptional()
   @IsString()
-  email?: string;
+  price: number;
+
+  @IsOptional()
+  @IsString()
+  quantity: number;
 }

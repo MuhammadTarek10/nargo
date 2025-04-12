@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRoles {
+enum user_roles {
   Customer
   Admin
 }
@@ -19,7 +19,7 @@ model user {
   last_name  String?
   email      String    @unique
   hash       String
-  role       UserRoles @default(Customer)
+  role       user_roles @default(Customer)
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
 
@@ -28,7 +28,7 @@ model user {
   product product[]
 }
 
-model Category {
+model category {
   id         String   @id @default(uuid()) @db.Uuid
   slug       String   @unique
   name       String
@@ -40,16 +40,16 @@ model Category {
 
 model product {
   id            String   @id @default(uuid()) @db.Uuid
-  category_slug String  
+  category_slug String
   name          String
   description   String
   price         Decimal  @db.Decimal(5, 2)
   quantity      Int
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
-  created_by    String @db.Uuid
+  created_by    String   @db.Uuid
 
-  category    Category     @relation(fields: [category_slug], references: [slug], onDelete: Cascade)
+  category    category     @relation(fields: [category_slug], references: [slug], onDelete: Cascade)
   owner       user         @relation(fields: [created_by], references: [id], onDelete: Cascade)
   order_items order_item[]
   cart_items  cart_item[]
@@ -59,7 +59,7 @@ model product {
   @@index([category_slug])
 }
 
-enum OrderStatus {
+enum order_status {
   PENDING
   SHIPPED
   DELIVERED
@@ -68,8 +68,8 @@ enum OrderStatus {
 
 model order {
   id         String      @id @default(uuid()) @db.Uuid
-  user_id    String @db.Uuid
-  status     OrderStatus @default(PENDING)
+  user_id    String      @db.Uuid
+  status     order_status @default(PENDING)
   total      Decimal     @db.Decimal(5, 2)
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
@@ -80,8 +80,8 @@ model order {
 
 model order_item {
   id         String   @id @default(uuid()) @db.Uuid
-  order_id   String @db.Uuid
-  product_id String @db.Uuid
+  order_id   String   @db.Uuid
+  product_id String   @db.Uuid
   quantity   Int
   price      Decimal  @db.Decimal(5, 2)
   created_at DateTime @default(now())
@@ -103,8 +103,8 @@ model cart {
 
 model cart_item {
   id         String   @id @default(uuid()) @db.Uuid
-  cart_id    String @db.Uuid
-  product_id String @db.Uuid
+  cart_id    String   @db.Uuid
+  product_id String   @db.Uuid
   quantity   Int      @default(1)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

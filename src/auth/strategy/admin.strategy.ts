@@ -10,7 +10,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { DbService } from 'src/db/db.service';
 
 @Injectable()
-export class AdminStrategy extends PassportStrategy(Strategy, 'auth') {
+export class AdminStrategy extends PassportStrategy(Strategy, 'admin') {
   constructor(
     config: ConfigService,
     private db: DbService,
@@ -32,6 +32,9 @@ export class AdminStrategy extends PassportStrategy(Strategy, 'auth') {
       },
       select: {
         id: true,
+        first_name: true,
+        last_name: true,
+        email: true,
         role: true,
       },
     });

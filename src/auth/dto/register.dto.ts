@@ -17,5 +17,6 @@ export class RegisterDto {
   last_name: string;
 
   @IsOptional()
+  @IsString()
   role: string = 'Customer';
 }
