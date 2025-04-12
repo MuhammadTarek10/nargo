@@ -52,7 +52,7 @@ export class ProductService {
     });
   }
 
-  async delete(id: string): Promise<Partial<product> | undefined> {
+  async delete(id: string): Promise<void> {
     const product = await this.db.product.findUnique({
       where: {
         id: id,
@@ -61,7 +61,7 @@ export class ProductService {
 
     if (!product) throw new NotFoundException('Product not found');
 
-    return await this.db.product.delete({
+    await this.db.product.delete({
       where: { id: id },
     });
   }

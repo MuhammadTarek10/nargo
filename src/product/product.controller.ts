@@ -13,7 +13,7 @@ import { AdminGuard } from 'src/auth/guard';
 import { ProductDto, UpdateProductDto } from './dto';
 import { ProductService } from './product.service';
 
-@Controller('product')
+@Controller('products')
 export class ProductController {
   constructor(private service: ProductService) {}
 
