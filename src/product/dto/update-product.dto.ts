@@ -14,6 +14,6 @@ export class UpdateProductDto {
   price: number;
 
   @IsOptional()
-  @IsString()
+  @IsPositive()
   quantity: number;
 }
