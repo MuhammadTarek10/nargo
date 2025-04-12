@@ -19,7 +19,9 @@ export class AuthService {
     private db: DbService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(
+    dto: RegisterDto,
+  ): Promise<{ access_token: string } | undefined> {
     const existingUser = await this.db.user.findUnique({
       where: {
         email: dto.email,

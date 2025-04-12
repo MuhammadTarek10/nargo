@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { user } from 'generated/prisma';
@@ -6,7 +10,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { DbService } from 'src/db/db.service';
 
 @Injectable()
-export class AuthStrategy extends PassportStrategy(Strategy, 'auth') {
+export class AdminStrategy extends PassportStrategy(Strategy, 'auth') {
   constructor(
     config: ConfigService,
     private db: DbService,
@@ -33,6 +37,9 @@ export class AuthStrategy extends PassportStrategy(Strategy, 'auth') {
     });
 
     if (!user) throw new NotFoundException('There is no User with this Id');
+
+    if (user.role !== 'Admin')
+      throw new UnauthorizedException('Must be admin to do this operation');
 
     return user;
   }
