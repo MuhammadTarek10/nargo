@@ -44,6 +44,9 @@ export class CartService {
 
     if (!product) throw new NotFoundException('Product not found');
 
+    if (product.quantity < dto.quantity)
+      throw new Error('Product is out of stock');
+
     const cart = await this.db.cart.findUnique({
       where: { user_id: user_id },
     });
@@ -78,8 +81,8 @@ export class CartService {
     });
   }
 
-  async delete(user_id: string): Promise<void> {
-    await this.db.cart.delete({
+  async clear(tx: Prisma.TransactionClient, user_id: string): Promise<void> {
+    await tx.cart.delete({
       where: { user_id: user_id },
     });
   }
@@ -101,15 +104,6 @@ export class CartService {
     product_id: string,
     quantity: number,
   ): Promise<Partial<cart_item>> {
-    await tx.product.update({
-      where: { id: product_id },
-      data: {
-        quantity: {
-          decrement: quantity,
-        },
-      },
-    });
-
     const item = await tx.cart_item.findFirst({
       where: {
         cart_id: cart_id,
