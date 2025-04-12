@@ -3,17 +3,17 @@ import { IsOptional, IsPositive, IsString } from 'class-validator';
 export class UpdateProductDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 
   @IsOptional()
   @IsPositive()
-  price: number;
+  price?: number;
 
   @IsOptional()
   @IsPositive()
-  quantity: number;
+  quantity?: number;
 }

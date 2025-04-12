@@ -17,6 +17,7 @@ import { AddToCartDto } from './dto';
 export class CartController {
   constructor(private service: CartService) {}
 
+  // TODO: add caching
   @Get()
   async getCart(@GetUser('id') user_id: string) {
     return await this.service.get(user_id);

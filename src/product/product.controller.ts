@@ -36,6 +36,7 @@ export class ProductController {
     return await this.service.delete(id);
   }
 
+  // TODO: add caching
   @Get()
   async findAll(
     @Query('category') category: string,

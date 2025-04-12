@@ -18,12 +18,13 @@ import { OrderService } from './order.service';
 export class OrderController {
   constructor(private service: OrderService) {}
 
+  // TODO: add caching
   @Get()
   async getStatus(
     @GetUser('id') user_id: string,
-    @Query('status') status: string,
+    @Query('status') status?: string,
   ) {
-    switch (status?.toLowerCase()) {
+    switch (status?.toUpperCase()) {
       case Constants.pending:
         return await this.service.getPending(user_id);
       case Constants.delivered:

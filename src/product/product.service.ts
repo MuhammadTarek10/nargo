@@ -96,9 +96,7 @@ export class ProductService {
       };
     }
 
-    return this.db.product.findMany({
-      where,
-    });
+    return this.db.product.findMany({ where });
   }
 
   async findOne(id: string): Promise<Partial<product> | undefined> {
