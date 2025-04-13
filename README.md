@@ -1,98 +1,109 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛍️ Nargo
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**Nargo** is a full-featured open-source e-commerce API built with [NestJS](https://nestjs.com/), [PostgreSQL](https://www.postgresql.org/), and [Redis](https://redis.io/). It supports user authentication, product management, cart operations, orders, and more – all with clean architecture and modular structure.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+- 🔐 **Authentication** with JWT (Admin & Customer roles)
+- 🛒 **Cart Management**: Add/remove products to/from cart
+- 📦 **Product Management**: List, filter, create, update, delete
+- 🧾 **Order Management**: Create and view orders
+- 👤 **User Profiles**
+- 📬 **Email Integration** using Nodemailer
+- ⚡ **Request Throttling** with global guards
+- 💾 **Caching** using Redis
+- 🧰 **Centralized Error Handling**
+- 📘 **Full REST API** with structured routing
+- 🐳 **Dockerized** setup with PostgreSQL & Redis
+- 🧱 Clean, modular, and scalable architecture
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+> ✨ _Admin Dashboard and Real-Time Notifications are planned for future releases!_
 
-## Project setup
+## 🧱 Tech Stack
 
-```bash
-$ pnpm install
-```
+- **Backend**: NestJS, TypeScript
+- **Database**: PostgreSQL (via Prisma ORM)
+- **Cache**: Redis
+- **Auth**: JWT
+- **Email**: Nodemailer
+- **Containerization**: Docker, Docker Compose
 
-## Compile and run the project
+## ⚙️ Getting Started
 
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Run tests
+### 1. Clone the project
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+git clone https://github.com/your-username/nargo.git
+cd nargo
 ```
 
-## Deployment
+### 2. Create .env file
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Copy .env.example and fill in your environment variables:
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+cp .env.example .env
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3. Start the services
 
-## Resources
+```bash
+docker compose up -d
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+This will start the NestJS app, PostgreSQL, and Redis containers.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
 
-## Support
+## 🔐 Roles
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Admin**: Can manage all resources (products, users, orders, etc.)
+- **Customer**: Can browse products, manage cart, and place orders
 
-## Stay in touch
+## 📑 API Endpoints
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 🧾 Auth
 
-## License
+| Method | Endpoint         | Description         |
+| ------ | ---------------- | ------------------- |
+| POST   | `/auth/register` | Register a new user |
+| POST   | `/auth/login`    | Login and get token |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 👤 User
+
+| Method | Endpoint    | Description      |
+| ------ | ----------- | ---------------- |
+| GET    | `/users/me` | Get current user |
+
+### 📦 Products
+
+| Method | Endpoint        | Description            |
+| ------ | --------------- | ---------------------- |
+| GET    | `/products`     | List all products      |
+| GET    | `/products/:id` | Get product by ID      |
+| POST   | `/products`     | Create product (Admin) |
+| PUT    | `/products/:id` | Update product (Admin) |
+| DELETE | `/products/:id` | Delete product (Admin) |
+
+### 🛒 Cart
+
+| Method | Endpoint           | Description              |
+| ------ | ------------------ | ------------------------ |
+| GET    | `/cart`            | View user’s cart         |
+| POST   | `/cart`            | Add product to cart      |
+| DELETE | `/cart/:productId` | Remove product from cart |
+
+### 📬 Orders
+
+| Method | Endpoint            | Description             |
+| ------ | ------------------- | ----------------------- |
+| GET    | `/orders`           | View user orders        |
+| POST   | `/orders`           | Create new order        |
+| GET    | `/orders/:id`       | View specific order     |
+| GET    | `/admin/orders`     | View all orders (Admin) |
+| DELETE | `/admin/orders/:id` | Delete order (Admin)    |
+
+---
