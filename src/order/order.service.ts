@@ -65,7 +65,13 @@ export class OrderService {
     order_id: string,
     status: string = Constants.shipped,
   ): Promise<Partial<order>> {
-    const order = await this.db.order.update({
+    const order = await this.db.order.findUnique({
+      where: { id: order_id },
+    });
+
+    if (!order) throw new Error('Order not found');
+
+    const updatedOrder = await this.db.order.update({
       where: { id: order_id },
       data: {
         status: getStatus(status),
@@ -79,9 +85,9 @@ export class OrderService {
       },
     });
 
-    await this.emailService.notify(order.user.email, order_id, status);
+    await this.emailService.notify(updatedOrder.user.email, order_id, status);
 
-    return order;
+    return updatedOrder;
   }
 
   private async createOrder(

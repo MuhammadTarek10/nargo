@@ -7,6 +7,7 @@ import * as pactum from 'pactum';
 import { AuthModule } from 'src/auth/auth.module';
 import { LoginDto, RegisterDto } from 'src/auth/dto';
 import { CartModule } from 'src/cart/cart.module';
+import { AddToCartDto } from 'src/cart/dto';
 import { DbModule } from 'src/db/db.module';
 import { DbService } from 'src/db/db.service';
 import { EmailModule } from 'src/email/email.module';
@@ -309,9 +310,20 @@ describe('App e2e', () => {
     it('should throw if not admin', () => {
       return pactum
         .spec()
-        .delete('/products/{id}')
+        .patch('/products/{id}')
         .withPathParams('id', '$S{product_id}')
         .expectStatus(401);
+    });
+
+    it('should update product', () => {
+      return pactum
+        .spec()
+        .patch('/products/{id}')
+        .withBearerToken('$S{admin_access_token}')
+        .withPathParams('id', '$S{product_id}')
+        .withBody({ name: 'Phone2' })
+        .expectStatus(200)
+        .expectBodyContains('Phone2');
     });
 
     it('should delete product', () => {
@@ -328,6 +340,7 @@ describe('App e2e', () => {
         .spec()
         .delete('/products/{id}')
         .withPathParams('id', 'c538806e-9bb6-44a5-8c58-37609a7044f0')
+        .withBearerToken('$S{admin_access_token}')
         .expectStatus(404);
     });
 
@@ -340,17 +353,161 @@ describe('App e2e', () => {
         .expectStatus(401);
     });
 
-    it('should update product', () => {
+    it('should create product again', () => {
       return pactum
         .spec()
-        .patch('/products/{id}')
-        .withPathParams('id', '$S{product_id}')
+        .post('/products')
         .withBearerToken('$S{admin_access_token}')
-        .withBody({
-          name: 'Phone2',
-        })
+        .withBody(dto)
+        .expectStatus(201)
+        .stores('product_id', 'id');
+    });
+  });
+
+  describe('Cart', () => {
+    const dto: AddToCartDto = {
+      product_id: '$S{product_id}',
+      quantity: 1,
+    };
+
+    it('should throw if not logged in', () => {
+      return pactum.spec().get('/carts').expectStatus(401);
+    });
+
+    it('should add product to cart', () => {
+      return pactum
+        .spec()
+        .post('/carts/products')
+        .withBearerToken('$S{user_access_token}')
+        .withBody(dto)
+        .expectStatus(201);
+    });
+
+    it('should throw if quantity is negative', () => {
+      return pactum
+        .spec()
+        .post('/carts/products')
+        .withBearerToken('$S{user_access_token}')
+        .withBody({ ...dto, quantity: -1 })
+        .expectStatus(400);
+    });
+
+    it('should throw if quantity is more than available', () => {
+      return pactum
+        .spec()
+        .post('/carts/products')
+        .withBearerToken('$S{user_access_token}')
+        .withBody({ ...dto, quantity: 101 })
+        .expectStatus(400);
+    });
+
+    it('should get cart', () => {
+      return pactum
+        .spec()
+        .get('/carts')
+        .withBearerToken('$S{user_access_token}')
+        .expectStatus(200);
+    });
+
+    it('should remove product from cart', () => {
+      return pactum
+        .spec()
+        .patch('/carts/products/{id}')
+        .withBearerToken('$S{user_access_token}')
+        .withPathParams('id', '$S{product_id}')
+        .expectStatus(200);
+    });
+
+    it('should add product to cart again', () => {
+      return pactum
+        .spec()
+        .post('/carts/products')
+        .withBearerToken('$S{user_access_token}')
+        .withBody(dto)
+        .expectStatus(201);
+    });
+  });
+
+  describe('Order', () => {
+    it('should create order', () => {
+      return pactum
+        .spec()
+        .post('/orders')
+        .withBearerToken('$S{user_access_token}')
+        .expectStatus(201);
+    });
+
+    it('should get pending orders', () => {
+      return pactum
+        .spec()
+        .get('/orders')
+        .withBearerToken('$S{user_access_token}')
+        .withQueryParams('status', 'pending')
         .expectStatus(200)
-        .expectBodyContains('Phone2');
+        .stores('order_id', 'id');
+    });
+
+    it('should get history orders', () => {
+      return pactum
+        .spec()
+        .get('/orders')
+        .withBearerToken('$S{user_access_token}')
+        .withQueryParams('status', 'delivered')
+        .expectStatus(200);
+    });
+
+    it('should get all my orders', () => {
+      return pactum
+        .spec()
+        .get('/orders')
+        .withBearerToken('$S{user_access_token}')
+        .expectStatus(200);
+    });
+
+    it('should throw if not admin requests all orders', () => {
+      return pactum
+        .spec()
+        .get('/orders/all')
+        .withBearerToken('$S{user_access_token}')
+        .expectStatus(401);
+    });
+
+    it('should get all orders', () => {
+      return pactum
+        .spec()
+        .get('/orders/all')
+        .withBearerToken('$S{admin_access_token}')
+        .expectStatus(200);
+    });
+
+    it('should update order status', () => {
+      return pactum
+        .spec()
+        .patch('/orders/{id}')
+        .withBearerToken('$S{admin_access_token}')
+        .withPathParams('id', '$S{order_id}')
+        .withBody({ status: 'delivered' })
+        .expectStatus(200);
+    });
+
+    it('should get history orders after update', () => {
+      return pactum
+        .spec()
+        .get('/orders')
+        .withBearerToken('$S{user_access_token}')
+        .withQueryParams('status', 'delivered')
+        .expectStatus(200)
+        .expectJsonLength(1);
+    });
+
+    it('should throw if not admin updates order status', () => {
+      return pactum
+        .spec()
+        .patch('/orders/{id}')
+        .withBearerToken('$S{user_access_token}')
+        .withPathParams('id', '$S{order_id}')
+        .withBody({ status: 'delivered' })
+        .expectStatus(401);
     });
   });
 });

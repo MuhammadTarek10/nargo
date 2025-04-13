@@ -1,16 +1,16 @@
 import { order_status } from 'generated/prisma';
 
 export function getStatus(status: string): order_status {
-  switch (status.toLowerCase()) {
-    case 'pending':
+  switch (status.toUpperCase()) {
+    case 'PENDING':
       return order_status.PENDING;
-    case 'shipped':
+    case 'SHIPPED':
       return order_status.SHIPPED;
-    case 'delivered':
+    case 'DELIVERED':
       return order_status.DELIVERED;
-    case 'canceled':
+    case 'CANCELED':
       return order_status.CANCELED;
-    case 'processing':
+    case 'PROCESSING':
       return order_status.PROCESSING;
     default:
       return order_status.PENDING;

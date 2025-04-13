@@ -1,3 +1,4 @@
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import {
   Body,
   Controller,
@@ -6,18 +7,19 @@ import {
   Patch,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto';
 
+@UseInterceptors(CacheInterceptor)
 @UseGuards(JwtGuard)
 @Controller('carts')
 export class CartController {
   constructor(private service: CartService) {}
 
-  // TODO: add caching
   @Get()
   async getCart(@GetUser('id') user_id: string) {
     return await this.service.get(user_id);

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { cart, Prisma } from 'generated/prisma';
 import { DbService } from 'src/db/db.service';
 import { cart_item } from './../../generated/prisma/index.d';
@@ -45,7 +49,7 @@ export class CartService {
     if (!product) throw new NotFoundException('Product not found');
 
     if (product.quantity < dto.quantity)
-      throw new Error('Product is out of stock');
+      throw new BadRequestException('Product is out of stock');
 
     const cart = await this.db.cart.findUnique({
       where: { user_id: user_id },

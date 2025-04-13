@@ -18,7 +18,6 @@ import { OrderService } from './order.service';
 export class OrderController {
   constructor(private service: OrderService) {}
 
-  // TODO: add caching
   @Get()
   async getStatus(
     @GetUser('id') user_id: string,
