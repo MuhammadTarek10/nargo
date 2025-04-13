@@ -11,8 +11,8 @@ services:
       - .env
     environment:
       - NODE_ENV=${NODE_ENV}
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_URL=${REDIS_URL}
+      - DATABASE_URL=postgresql://postgres:postgres@dev-db:5432/nargo
+      - REDIS_URL=redis://cache:6379
     depends_on:
       - dev-db
       - cache
