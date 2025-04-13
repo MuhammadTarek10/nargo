@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('cache')
+  async getCache() {
+    return await this.appService.getCache();
+  }
 }

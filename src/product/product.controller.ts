@@ -1,3 +1,4 @@
+import { CacheInterceptor, CacheKey } from '@nestjs/cache-manager';
 import {
   Body,
   Controller,
@@ -8,12 +9,14 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { AdminGuard } from 'src/auth/guard';
 import { ProductDto, UpdateProductDto } from './dto';
 import { ProductService } from './product.service';
 
+@UseInterceptors(CacheInterceptor)
 @Controller('products')
 export class ProductController {
   constructor(private service: ProductService) {}
@@ -36,8 +39,8 @@ export class ProductController {
     return await this.service.delete(id);
   }
 
-  // TODO: add caching
   @Get()
+  @CacheKey('products')
   async findAll(
     @Query('category') category: string,
     @Query('from-price') from_price: number,
