@@ -1,3 +1,4 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductDto, UpdateProductDto } from 'src/product/dto';
 import { ProductController } from 'src/product/product.controller';
@@ -19,6 +20,14 @@ describe('ProductController', () => {
             delete: jest.fn(),
             findAll: jest.fn(),
             findOne: jest.fn(),
+          },
+        },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            get: jest.fn(),
+            set: jest.fn(),
+            del: jest.fn(),
           },
         },
       ],

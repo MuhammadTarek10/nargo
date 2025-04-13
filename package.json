@@ -13,6 +13,7 @@
     "db:dev:up": "docker compose up dev-db -d",
     "db:dev:restart": "pnpm db:dev:rm && pnpm db:dev:up && sleep 2 && pnpm prisma:dev:deploy",
     "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
+    "prisma:test:studio": "dotenv -e .env.test -- prisma studio",
     "db:test:rm": "docker compose rm test-db -s -f -v",
     "db:test:up": "docker compose up test-db -d",
     "db:test:restart": "pnpm db:test:rm && pnpm db:test:up && sleep 2 && pnpm prisma:test:deploy",

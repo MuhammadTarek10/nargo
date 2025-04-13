@@ -54,9 +54,7 @@ export class ProductService {
 
   async delete(id: string): Promise<void> {
     const product = await this.db.product.findUnique({
-      where: {
-        id: id,
-      },
+      where: { id: id },
     });
 
     if (!product) throw new NotFoundException('Product not found');
