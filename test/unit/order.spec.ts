@@ -31,59 +31,59 @@ describe('OrderController', () => {
 
   describe('getStatus', () => {
     it('should call service.getPending if status is "pending"', async () => {
-      const userId = 'user123';
+      const user_id = 'user123';
       const status = Constants.pending; // or 'pending'
       (service.getPending as jest.Mock).mockResolvedValueOnce('pending-orders');
 
-      const result = await controller.getStatus(userId, status);
+      const result = await controller.getStatus(user_id, status);
 
-      expect(service.getPending).toHaveBeenCalledWith(userId);
+      expect(service.getPending).toHaveBeenCalledWith(user_id);
       expect(result).toEqual('pending-orders');
     });
 
     it('should call service.getHistory if status is "delivered"', async () => {
-      const userId = 'user123';
+      const user_id = 'user123';
       const status = Constants.delivered; // or 'delivered'
       (service.getHistory as jest.Mock).mockResolvedValueOnce(
         'delivered-orders',
       );
 
-      const result = await controller.getStatus(userId, status);
+      const result = await controller.getStatus(user_id, status);
 
-      expect(service.getHistory).toHaveBeenCalledWith(userId);
+      expect(service.getHistory).toHaveBeenCalledWith(user_id);
       expect(result).toEqual('delivered-orders');
     });
 
     it('should call service.get if status is something else', async () => {
-      const userId = 'user123';
+      const user_id = 'user123';
       const status = 'some-other-status';
       (service.get as jest.Mock).mockResolvedValueOnce('other-orders');
 
-      const result = await controller.getStatus(userId, status);
+      const result = await controller.getStatus(user_id, status);
 
-      expect(service.get).toHaveBeenCalledWith(userId);
+      expect(service.get).toHaveBeenCalledWith(user_id);
       expect(result).toEqual('other-orders');
     });
 
     it('should call service.get if no status is provided', async () => {
-      const userId = 'user123';
+      const user_id = 'user123';
       (service.get as jest.Mock).mockResolvedValueOnce('default-orders');
 
-      const result = await controller.getStatus(userId);
+      const result = await controller.getStatus(user_id);
 
-      expect(service.get).toHaveBeenCalledWith(userId);
+      expect(service.get).toHaveBeenCalledWith(user_id);
       expect(result).toEqual('default-orders');
     });
   });
 
   describe('create', () => {
     it('should call service.create with correct user id', async () => {
-      const userId = 'user123';
+      const user_id = 'user123';
       (service.create as jest.Mock).mockResolvedValueOnce('created-order');
 
-      const result = await controller.create(userId);
+      const result = await controller.create(user_id);
 
-      expect(service.create).toHaveBeenCalledWith(userId);
+      expect(service.create).toHaveBeenCalledWith(user_id);
       expect(result).toEqual('created-order');
     });
   });

@@ -3,6 +3,7 @@ import { order, Prisma } from 'generated/prisma';
 import { CartService } from 'src/cart/cart.service';
 import { Constants } from 'src/constants';
 import { DbService } from 'src/db/db.service';
+import { EmailService } from 'src/email/email.service';
 import { getStatus } from 'src/utils/order-status';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class OrderService {
   constructor(
     private db: DbService,
     private cartService: CartService,
+    private emailService: EmailService,
   ) {}
 
   async findAll(): Promise<Partial<order[]>> {
@@ -63,14 +65,23 @@ export class OrderService {
     order_id: string,
     status: string = Constants.shipped,
   ): Promise<Partial<order>> {
-    return this.db.order.update({
+    const order = await this.db.order.update({
       where: { id: order_id },
       data: {
         status: getStatus(status),
       },
+      include: {
+        user: {
+          select: {
+            email: true,
+          },
+        },
+      },
     });
 
-    // TODO: send email to user
+    await this.emailService.notify(order.user.email, order_id, status);
+
+    return order;
   }
 
   private async createOrder(

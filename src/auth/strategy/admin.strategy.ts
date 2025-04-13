@@ -42,7 +42,7 @@ export class AdminStrategy extends PassportStrategy(Strategy, 'admin') {
 
     if (!user) throw new NotFoundException('There is no User with this Id');
 
-    if (user.role.toLowerCase() !== Constants.admin)
+    if (user.role.toUpperCase() !== Constants.admin)
       throw new UnauthorizedException('Must be admin to do this operation');
 
     return user;

@@ -7,10 +7,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(private db: DbService) {}
 
-  async update(userId: string, dto: UpdateUserDto) {
+  async update(user_id: string, dto: UpdateUserDto) {
     const user = await this.db.user.findUnique({
       where: {
-        id: userId,
+        id: user_id,
       },
     });
 

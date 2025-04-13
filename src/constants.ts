@@ -5,6 +5,6 @@ export class Constants {
   static canceled: string = 'CANCELED';
   static processing: string = 'PROCESSING';
 
-  static customer: string = 'Customer';
-  static admin: string = 'Admin';
+  static customer: string = 'CUSTOMER';
+  static admin: string = 'ADMIN';
 }

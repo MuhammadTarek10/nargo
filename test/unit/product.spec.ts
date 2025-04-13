@@ -30,7 +30,7 @@ describe('ProductController', () => {
 
   describe('create', () => {
     it('should call productService.create with correct user_id and dto', async () => {
-      const userId = 'someUserId';
+      const user_id = 'someUserId';
       const dto: ProductDto = {
         category: 'electronics',
         name: 'Smart TV',
@@ -42,9 +42,9 @@ describe('ProductController', () => {
       // Mock resolved value
       (productService.create as jest.Mock).mockResolvedValue('created-product');
 
-      const result = await productController.create(userId, dto);
+      const result = await productController.create(user_id, dto);
 
-      expect(productService.create).toHaveBeenCalledWith(userId, dto);
+      expect(productService.create).toHaveBeenCalledWith(user_id, dto);
       expect(result).toBe('created-product');
     });
   });
