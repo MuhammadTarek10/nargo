@@ -92,9 +92,9 @@ npx prisma generate
 
 | Method | Endpoint           | Description              |
 | ------ | ------------------ | ------------------------ |
-| GET    | `/cart`            | View user’s cart         |
-| POST   | `/cart`            | Add product to cart      |
-| DELETE | `/cart/:productId` | Remove product from cart |
+| GET    | `/carts`            | View user’s cart         |
+| POST   | `/carts/products`            | Add product to cart      |
+| DELETE | `/carts/product/:id` | Remove product from cart |
 
 ### 📬 Orders
 
@@ -103,7 +103,7 @@ npx prisma generate
 | GET    | `/orders`           | View user orders        |
 | POST   | `/orders`           | Create new order        |
 | GET    | `/orders/:id`       | View specific order     |
-| GET    | `/admin/orders`     | View all orders (Admin) |
-| DELETE | `/admin/orders/:id` | Delete order (Admin)    |
+| GET    | `/orders/all`     | View all orders (Admin) |
+| DELETE | `/orders/:id` | Delete order (Admin)    |
 
 ---
