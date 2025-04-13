@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { order, Prisma } from 'generated/prisma';
 import { CartService } from 'src/cart/cart.service';
 import { Constants } from 'src/constants';
@@ -69,7 +69,7 @@ export class OrderService {
       where: { id: order_id },
     });
 
-    if (!order) throw new Error('Order not found');
+    if (!order) throw new NotFoundException('Order not found');
 
     const updatedOrder = await this.db.order.update({
       where: { id: order_id },

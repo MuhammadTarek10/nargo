@@ -48,4 +48,4 @@ RUN pnpm prisma generate
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "dist/main"]
+CMD ["sh", "-c", "pnpm prisma migrate deploy && node dist/main"]
