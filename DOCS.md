@@ -31,19 +31,19 @@
 
 ## Technical Debt
 
-- Didn't follow SRP for some operations for fast development, intended to refactor it in the future.
+- Didn't follow SRP (Single Responsibility Principle) for some operations for fast development, intended to refactor it in the future.
 
 ## Database
 
-- Making minimalistic incremental approach, not having all functionalites from the start.
+- Making minimalistic incremental approach, not having all functionalities from the start.
 - Having indexes for quantity, category_slug, price, for faster reads.
-- Wanted to have no cart for simplicity, but it would require some handling in the order status, so I will stick the the "cart" and "cartItem" approach.
+- Wanted to have no cart for simplicity, but it would require some handling in the order status, so I will stick the "cart" and "cartItem" approach.
 - Followed snake_case convention of naming tables and fields
 
 ## Authorization
 
 - Decided to choose RBAC for authorization for its simplicty and straigt forward nature.
-- Bacause I have 2 users only, I decided to have a filed "role" in the users table to know the users role.
+- Because I have 2 users only, I decided to have a filed "role" in the users table to know the users role.
 - Put index on the role to get whether all users or all admins at once for future analytics, like which users buys more, which admins created more products and so on.
 
 ## Error Handling
