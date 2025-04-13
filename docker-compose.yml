@@ -33,18 +33,18 @@ services:
     volumes:
       - dev-db:/var/lib/postgresql/data
 
-  test-db:
-     image: postgres:15-alpine
-     ports:
-       - 5435:5432
-     env_file:
-       - .env.test
-     environment:
-       - POSTGRES_USER=${POSTGRES_USER}
-       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-       - POSTGRES_DB=${POSTGRES_DB}
-     networks:
-       - nargo
+  # test-db:
+  #    image: postgres:15-alpine
+  #    ports:
+  #      - 5435:5432
+  #    env_file:
+  #      - .env.test
+  #    environment:
+  #      - POSTGRES_USER=${POSTGRES_USER}
+  #      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #      - POSTGRES_DB=${POSTGRES_DB}
+  #    networks:
+  #      - nargo
 
   cache:
     container_name: cache
