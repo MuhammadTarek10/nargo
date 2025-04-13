@@ -1,3 +1,4 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CartController } from 'src/cart/cart.controller';
 import { CartService } from 'src/cart/cart.service';
@@ -17,6 +18,13 @@ describe('CartController', () => {
             get: jest.fn(),
             add: jest.fn(),
             remove: jest.fn(),
+          },
+        },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            get: jest.fn(),
+            set: jest.fn(),
           },
         },
       ],

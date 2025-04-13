@@ -2,7 +2,7 @@ import { createKeyv } from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +13,7 @@ import { EmailModule } from './email/email.module';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
+import { AllExceptionsFilter } from './utils/filters';
 
 @Module({
   imports: [
@@ -50,6 +51,10 @@ import { UserModule } from './user/user.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
     },
   ],
 })
