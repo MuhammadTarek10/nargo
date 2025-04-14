@@ -32,6 +32,7 @@
 ## Technical Debt
 
 - Didn't follow SRP (Single Responsibility Principle) for some operations for fast development, intended to refactor it in the future.
+- Don't put role in token, manage RBAC better.
 
 ## Database
 
